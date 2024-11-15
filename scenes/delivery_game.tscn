@@ -632,7 +632,6 @@ frame_progress = 0.388971
 flip_h = true
 
 [node name="PlayerDetector" parent="Recipients/Recipient1" instance=ExtResource("17_ybbua")]
-collision_layer = 16
 
 [node name="Recipient2" type="AnimatedSprite2D" parent="Recipients"]
 position = Vector2(264, 184)
