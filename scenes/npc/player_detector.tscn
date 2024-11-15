@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3 uid="uid://270s754xljbr"]
+
+[ext_resource type="Script" path="res://scripts/player_detector.gd" id="1_nsrst"]
+[ext_resource type="Texture2D" uid="uid://6q6ovf7p6y8u" path="res://assets/emote_square.png" id="2_dkwwb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_upyrq"]
+size = Vector2(10, 33)
+
+[node name="PlayerDetector" type="Area2D" groups=["npc"]]
+collision_layer = 0
+monitorable = false
+script = ExtResource("1_nsrst")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(9, 7)
+shape = SubResource("RectangleShape2D_upyrq")
+debug_color = Color(0.727519, 0.474985, 0, 0.42)
+
+[node name="Emote" type="Sprite2D" parent="."]
+z_index = 5
+texture_filter = 1
+position = Vector2(9, -34)
+scale = Vector2(2.5, 2.5)
+texture = ExtResource("2_dkwwb")
+
+[node name="ItemInside" type="Sprite2D" parent="Emote"]
+unique_name_in_owner = true
+position = Vector2(0, -1.5)
+scale = Vector2(0.4, 0.4)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

@@ -1,0 +1,61 @@
+[gd_scene load_steps=7 format=3 uid="uid://dqcwxca4ok3x6"]
+
+[ext_resource type="Script" path="res://scripts/Box.gd" id="1_v4a41"]
+[ext_resource type="Texture2D" uid="uid://c3s0thy6ek4jj" path="res://assets/Box3.png" id="2_21opw"]
+[ext_resource type="Texture2D" uid="uid://6q6ovf7p6y8u" path="res://assets/emote_square.png" id="3_xcy4k"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_83ag2"]
+size = Vector2(26, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0v5tk"]
+size = Vector2(3, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qjgm4"]
+size = Vector2(12, 20)
+
+[node name="Box" type="AnimatableBody2D" groups=["box"]]
+texture_filter = 1
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_v4a41")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -8)
+texture = ExtResource("2_21opw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_83ag2")
+metadata/_edit_lock_ = true
+
+[node name="FrontBoxDetector" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 12
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FrontBoxDetector"]
+position = Vector2(12.5, 0)
+shape = SubResource("RectangleShape2D_0v5tk")
+debug_color = Color(2.26215e-06, 0.636327, 0.40628, 0.42)
+metadata/_edit_lock_ = true
+
+[node name="PlayerDetector" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetector"]
+position = Vector2(0, 6)
+shape = SubResource("RectangleShape2D_qjgm4")
+debug_color = Color(0.812304, 0.325907, 0.640859, 0.42)
+
+[node name="Emote" type="Sprite2D" parent="."]
+z_index = 5
+position = Vector2(0, -32)
+scale = Vector2(2.5, 2.5)
+texture = ExtResource("3_xcy4k")
+
+[node name="ItemInside" type="Sprite2D" parent="Emote"]
+unique_name_in_owner = true
+position = Vector2(0, -1.5)
+scale = Vector2(0.4, 0.4)
+
+[connection signal="body_entered" from="FrontBoxDetector" to="." method="_on_front_box_detector_body_entered"]
+[connection signal="body_entered" from="PlayerDetector" to="." method="_on_player_detector_body_entered"]
+[connection signal="body_exited" from="PlayerDetector" to="." method="_on_player_detector_body_exited"]
