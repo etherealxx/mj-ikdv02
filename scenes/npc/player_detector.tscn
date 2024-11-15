@@ -4,11 +4,10 @@
 [ext_resource type="Texture2D" uid="uid://6q6ovf7p6y8u" path="res://assets/emote_square.png" id="2_dkwwb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_upyrq"]
-size = Vector2(10, 33)
+size = Vector2(16, 33)
 
 [node name="PlayerDetector" type="Area2D" groups=["npc"]]
 collision_layer = 0
-monitorable = false
 script = ExtResource("1_nsrst")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

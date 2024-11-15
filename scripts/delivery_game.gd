@@ -10,6 +10,7 @@ var first_time_box := false
 var last_box_reference
 
 func _ready():
+	$Player.picked_box.connect(_on_player_picking_box)
 	producer.frame_changed.connect(_on_producer_anim_framechange)
 	for npc in $Recipients.get_children():
 		if npc.has_node("PlayerDetector"):
@@ -42,3 +43,7 @@ func _on_npc_item_delivered(npc, item : CompressedTexture2D):
 	while item == next_chosen_item:
 		next_chosen_item = possible_item.pick_random()
 	npc.assign_item(next_chosen_item)
+
+func _on_player_picking_box():
+	if box_count() < 5:
+		producer.play()

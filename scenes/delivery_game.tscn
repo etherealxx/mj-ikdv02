@@ -633,7 +633,6 @@ flip_h = true
 
 [node name="PlayerDetector" parent="Recipients/Recipient1" instance=ExtResource("17_ybbua")]
 collision_layer = 16
-monitorable = true
 
 [node name="Recipient2" type="AnimatedSprite2D" parent="Recipients"]
 position = Vector2(264, 184)
@@ -740,6 +739,13 @@ unique_name_in_owner = true
 position = Vector2(-3.60821e-06, -1.33929)
 scale = Vector2(0.67, 0.67)
 texture = ExtResource("24_xm8oc")
+
+[node name="Label" type="Label" parent="Player"]
+offset_left = -39.0
+offset_top = -104.0
+offset_right = 154.0
+offset_bottom = -81.0
+text = "carrying : "
 
 [connection signal="body_entered" from="Player/BoxDetector" to="Player" method="_on_box_detector_body_entered"]
 [connection signal="body_exited" from="Player/BoxDetector" to="Player" method="_on_box_detector_body_exited"]

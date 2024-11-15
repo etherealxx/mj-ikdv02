@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+signal picked_box
+
 const SPEED = 150.0
 
 @onready var anim = $AnimatedSprite2D
@@ -10,6 +12,9 @@ var is_carrying := false
 func _ready():
 	$Emote.hide()
 	%XSign.hide()
+
+func _process(delta):
+	$Label.text = "carrying : " + str(is_carrying)
 
 func change_anim(anim_name : StringName):
 	if !anim.get_animation() == anim_name: anim.play(anim_name)
@@ -29,17 +34,22 @@ func _unhandled_input(_event):
 					%ItemInside.texture = body.get_item_tex()
 					body.queue_free()
 					is_carrying = true
-					break
+					picked_box.emit()
+					return
 		else: # code for giving box
 			for body : Node2D in $BoxDetector.get_overlapping_bodies():
 				if body.is_in_group("trash"):
 					empty_item()
 					return
-			for area : Area2D in $BoxDetector.get_overlapping_areas():
-				if area.is_in_group("npc") \
-				and %ItemInside.texture == area.get_tex():
-					area.item_delivered()
-					empty_item()
+			for area : Node2D in $BoxDetector.get_overlapping_areas():
+				if area.is_in_group("npc"):
+					if %ItemInside.texture == area.get_tex():
+						area.item_delivered()
+						empty_item()
+					else:
+						print("wrong object")
+					return
+		print("you clicked on nothing")
 
 func _physics_process(delta):
 	if not is_on_floor():
