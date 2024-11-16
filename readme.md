@@ -1,3 +1,10 @@
+​Controls :
+
+- A & D to move left / right
+- J to interact/confirm
+- K to pause
+- F4 to toggle fullscreen
+
 Assets used from craftpix ([license](https://craftpix.net/file-licenses/)):
 
 https://free-game-assets.itch.io/free-industrial-zone-tileset-pixel-art

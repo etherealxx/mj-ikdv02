@@ -12,9 +12,10 @@ config_version=5
 
 config/name="mj-ikdv02"
 config/description="Delivery gal"
+config/version="0.1.0"
 run/main_scene="res://scenes/main_menu.tscn"
 config/features=PackedStringArray("4.2")
-config/icon="res://icon.png"
+config/icon="res://mj_ikvd02_icon.svg"
 
 [autoload]
 
