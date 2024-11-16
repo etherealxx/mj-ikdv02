@@ -13,9 +13,6 @@ func _ready():
 	$Emote.hide()
 	%XSign.hide()
 
-func _process(delta):
-	$Label.text = "carrying : " + str(is_carrying)
-
 func change_anim(anim_name : StringName):
 	if !anim.get_animation() == anim_name: anim.play(anim_name)
 
@@ -35,17 +32,20 @@ func _unhandled_input(_event):
 					body.queue_free()
 					is_carrying = true
 					picked_box.emit()
+					$JKey.visible = false
 					return
 		else: # code for giving box
 			for body : Node2D in $BoxDetector.get_overlapping_bodies():
 				if body.is_in_group("trash"):
 					empty_item()
+					$JKey.visible = false
 					return
 			for area : Node2D in $BoxDetector.get_overlapping_areas():
 				if area.is_in_group("npc"):
 					if %ItemInside.texture == area.get_tex():
 						area.item_delivered()
 						empty_item()
+						$JKey.visible = false
 					else:
 						print("wrong object")
 					return
@@ -71,6 +71,16 @@ func _physics_process(delta):
 func _on_box_detector_body_entered(body): # also detect trashcan
 	if body.is_in_group("trash"):
 		%XSign.show()
+		if is_carrying: $JKey.show()
 
 func _on_box_detector_body_exited(body):
-	%XSign.hide()
+	if body.is_in_group("trash"):
+		%XSign.hide()
+		$JKey.hide()
+
+func toggle_jkey(from : String):
+	if (from == "box" and is_carrying) \
+	or (from == "npc" and !is_carrying):
+		return
+
+	$JKey.visible = !$JKey.visible

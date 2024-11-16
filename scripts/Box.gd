@@ -12,12 +12,10 @@ func _physics_process(delta):
 	move_and_collide(motion_vec)
 
 func _on_front_box_detector_body_entered(body):
-	if body != self:
-		is_moving = false
+	if body != self: is_moving = false
 
 func _on_front_box_detector_body_exited(body):
-	if body != self:
-		is_moving = true
+	if body != self: is_moving = true
 
 func assign_item(item_image : CompressedTexture2D):
 	%ItemInside.texture = item_image
@@ -25,8 +23,10 @@ func assign_item(item_image : CompressedTexture2D):
 func get_item_tex() -> CompressedTexture2D:
 	return %ItemInside.texture
 
-func _on_player_detector_body_entered(_body):
+func _on_player_detector_body_entered(body):
 	$Emote.show()
+	body.toggle_jkey("box")
 
-func _on_player_detector_body_exited(_body):
+func _on_player_detector_body_exited(body):
 	$Emote.hide()
+	body.toggle_jkey("box")

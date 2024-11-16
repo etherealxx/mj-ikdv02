@@ -1,10 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://270s754xljbr"]
+[gd_scene load_steps=6 format=3 uid="uid://270s754xljbr"]
 
 [ext_resource type="Script" path="res://scripts/player_detector.gd" id="1_nsrst"]
 [ext_resource type="Texture2D" uid="uid://6q6ovf7p6y8u" path="res://assets/emote_square.png" id="2_dkwwb"]
+[ext_resource type="FontFile" uid="uid://2aoocfjmmsl7" path="res://fonts/monogram-extended.ttf" id="3_er585"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_upyrq"]
 size = Vector2(16, 33)
+
+[sub_resource type="LabelSettings" id="LabelSettings_pa56y"]
+font = ExtResource("3_er585")
 
 [node name="PlayerDetector" type="Area2D" groups=["npc"]]
 collision_layer = 16
@@ -27,5 +31,34 @@ unique_name_in_owner = true
 position = Vector2(0, -1.5)
 scale = Vector2(0.4, 0.4)
 
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 20
+one_shot = true
+explosiveness = 0.9
+direction = Vector2(0, -1)
+spread = 20.0
+initial_velocity_min = 300.0
+initial_velocity_max = 300.0
+angle_max = 180.0
+scale_amount_min = 2.0
+scale_amount_max = 2.0
+color = Color(0.770954, 0.770954, 0, 1)
+
+[node name="PlusOne" type="Label" parent="."]
+visible = false
+texture_filter = 1
+offset_left = 17.0
+offset_top = -70.0
+offset_right = 57.0
+offset_bottom = -47.0
+text = "+1 "
+label_settings = SubResource("LabelSettings_pa56y")
+
+[node name="TimeToLabelDisappear" type="Timer" parent="."]
+process_callback = 0
+one_shot = true
+
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]
+[connection signal="timeout" from="TimeToLabelDisappear" to="." method="_on_time_to_label_disappear_timeout"]
