@@ -1,6 +1,7 @@
 extends Node2D
 
 @export var possible_item : Array[CompressedTexture2D]
+@export_file("*.tscn") var main_menu_scene := ""
 
 @onready var producer = $Producer
 
@@ -9,15 +10,40 @@ const box := preload("res://scenes/items/box.tscn")
 var first_time_box := false
 var time_left := 60
 var score := 0
+var is_paused := false
+var is_game_over := true
 
 func _ready():
+	%MenuPopup.hide()
+	%PauseRect.hide()
 	$Player.picked_box.connect(_on_player_picking_box)
 	producer.frame_changed.connect(_on_producer_anim_framechange)
+	%MenuPopup.unpaused.connect(_on_unpause)
+	%MenuPopup.backtomenu.connect(_on_backtomenu)
 	for npc in $Recipients.get_children():
 		if npc.has_node("PlayerDetector"):
 			var npc_code = npc.get_node("PlayerDetector")
 			npc_code.assign_item(possible_item.pick_random())
 			npc_code.delivered.connect(_on_npc_item_delivered)
+
+func _unhandled_input(_event):
+	if Input.is_action_just_pressed("pause") and !is_paused:
+		is_paused = true
+		toggle_pause()
+		
+func _on_unpause():
+	%PauseRect.hide()
+	await get_tree().create_timer(0.1, true, true).timeout
+	is_paused = false
+
+func _on_backtomenu():
+	if score > GlobalVar.high_score: GlobalVar.high_score = score
+	get_tree().change_scene_to_file(main_menu_scene)
+	
+func toggle_pause():
+	get_tree().paused = true
+	%MenuPopup.show()
+	%PauseRect.show()
 
 func box_count() -> int:
 	return $Boxes.get_child_count()
@@ -59,3 +85,7 @@ func _on_second_timer_timeout():
 	if time_left > 0:
 		time_left -= 1
 		update_score_label()
+	else:
+		if score > GlobalVar.high_score: GlobalVar.high_score = score
+		toggle_pause()
+		%MenuPopup.game_over_screen(score)

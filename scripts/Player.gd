@@ -8,10 +8,17 @@ const SPEED = 150.0
 
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var is_carrying := false
+var box_pickup_sfx = load("res://assets/sfx/Cancel.wav")
+var box_given_sfx = load("res://assets/sfx/Confirm.wav")
 
 func _ready():
 	$Emote.hide()
 	%XSign.hide()
+
+func play_audio(audio : AudioStream):
+	$AudioStreamPlayer.stop()
+	$AudioStreamPlayer.stream = audio
+	$AudioStreamPlayer.play()
 
 func change_anim(anim_name : StringName):
 	if !anim.get_animation() == anim_name: anim.play(anim_name)
@@ -33,6 +40,7 @@ func _unhandled_input(_event):
 					is_carrying = true
 					picked_box.emit()
 					$JKey.visible = false
+					play_audio(box_pickup_sfx)
 					return
 		else: # code for giving box
 			for body : Node2D in $BoxDetector.get_overlapping_bodies():
@@ -46,6 +54,7 @@ func _unhandled_input(_event):
 						area.item_delivered()
 						empty_item()
 						$JKey.visible = false
+						play_audio(box_given_sfx)
 					else:
 						print("wrong object")
 					return

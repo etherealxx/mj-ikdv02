@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bma83vn16f47s"
-path="res://.godot/imported/jkey_pressed.png-13711f1f2a9162992070703794c44034.ctex"
+path="res://.godot/imported/jkey_pressed.png-104f6bedff05153a345239cbda390ac8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/jkey_pressed.png"
-dest_files=["res://.godot/imported/jkey_pressed.png-13711f1f2a9162992070703794c44034.ctex"]
+source_file="res://assets/UI/jkey_pressed.png"
+dest_files=["res://.godot/imported/jkey_pressed.png-104f6bedff05153a345239cbda390ac8.ctex"]
 
 [params]
 
